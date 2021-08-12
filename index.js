@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 const fileUpload = require('express-fileupload');
 const express = require('express');
 const partials = require('express-partials');
