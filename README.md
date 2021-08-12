@@ -2,7 +2,6 @@
 Small tool that can be used to view sarif files in a user friendly way.
 
 ## Installation
-***Using npm***
 ```
 $ npx sarif-viewer@latest
 ```
