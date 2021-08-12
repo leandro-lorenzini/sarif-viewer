@@ -10,6 +10,7 @@ const app = express();
 
 // Using EJS with partials as view engine
 app.set('view engine', 'ejs');
+app.set('views', __dirname + '/views');
 app.use(partials());
 
 // Setting upload file size limit
