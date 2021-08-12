@@ -7,3 +7,16 @@ $ npx sarif-viewer@latest
 ```
 ## Usage
 Simply open http://localhost:8080 on your browser.
+
+## Gitlab integration example
+You can create issues under your project in gitlab through the vulnerability details window.
+```
+$ gitlab_enabled=true
+$ gitlab_api=https://gitlab.com/api/v4
+$ gitlab_url=https://gitlab.com/
+$ gitlab_access_token=YOUR_ACCESS_TOKEN
+$ gitlab_project_id=YOUR_PROJECT_PATH
+```
+
+## TODO
+- Validate user input on results filter

@@ -5,7 +5,8 @@
             <thead>
             <tr>
                 <th width="80%">Vulnerability</th>
-                <th width="15%">File</th>
+                <th width="5%">Scanner</th>
+                <th width="10%">File</th>
                 <th width="5%">Risk</th>
             </tr>
             </thead>
@@ -13,6 +14,7 @@
                 <% vulnerabilities.forEach(function(vulnerability, index){ %>
                 <tr style="cursor: pointer;" role="button" data-open="issue_<%= index %>">
                     <td><%= rules[vulnerability.ruleId].description || vulnerability.message.text %></td>
+                    <td><%= rules[vulnerability.ruleId].scanner.name %></td>
                     <td><%= vulnerability.locations[0].physicalLocation.artifactLocation.uri %></td>
                     <td><span class="badge <% switch(vulnerability.level){
                         case 'error': %>
@@ -119,6 +121,10 @@
                 </td>
             </tr>
             <% } %>
+            <tr>
+                <td style="text-align: right; white-space: nowrap;">Scanner:</td>
+                <td><a href="<%=rules[vulnerability.ruleId].scanner.url%>" target="_blank"><%= rules[vulnerability.ruleId].scanner.name %></a></td>
+            </tr>
             <% if(rules[vulnerability.ruleId].help) { %>
             <tr>
                 <td style="text-align: right; white-space: nowrap;">Help:</td>
@@ -129,14 +135,18 @@
                 <td style="text-align: right; white-space: nowrap;">File:</td>
                 <td><%= vulnerability.locations[0].physicalLocation.artifactLocation.uri %></td>
             </tr>
+            <% if(vulnerability.locations[0].physicalLocation.region.startLine) { %>
             <tr>
                 <td style="text-align: right; white-space: nowrap;">Start line:</td>
                 <td><%= vulnerability.locations[0].physicalLocation.region.startLine %></td>
             </tr>
+            <% } %>
+            <% if(vulnerability.locations[0].physicalLocation.region.endLine) { %>
             <tr>
                 <td style="text-align: right; white-space: nowrap;">End line:</td>
                 <td><%= vulnerability.locations[0].physicalLocation.region.endLine %></td>
             </tr>
+            <% } %>
         </table>
 
         <% if (vulnerability.locations[0].physicalLocation.region.snippet) { %>
@@ -144,6 +154,25 @@
                 <%= vulnerability.locations[0].physicalLocation.region.snippet.text %>
             </code>
         <% } %>
+
+        <% if (config.gitlab.enabled) { %>
+        <div style="text-align: right;">
+            <a class="button" target="_blank" href="/issue?<%= qs({
+                title: rules[vulnerability.ruleId].description || vulnerability.message.text,
+                description: vulnerability.message.text,
+                file: vulnerability.locations[0].physicalLocation.artifactLocation.uri,
+                startLine: vulnerability.locations[0].physicalLocation.region.startLine,
+                endLine: vulnerability.locations[0].physicalLocation.region.endLine,
+                help: rules[vulnerability.ruleId].help
+            }) %>">
+                <span aria-hidden="true">
+                    <img src="https://docs.gitlab.com/assets/images/gitlab-logo.svg" />
+                </span>
+                Create an issue on Gitlab
+            </a>
+        </div>
+        <% } %>
+
 
         <button class="close-button" data-close aria-label="Close modal" type="button">
         <span aria-hidden="true">&times;</span>
