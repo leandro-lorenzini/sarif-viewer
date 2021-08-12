@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/foundation-sites@6.6.3/dist/css/foundation.min.css" 
+      integrity="sha256-ogmFxjqiTMnZhxCqVmcqTvjfe1Y/ec4WaRj/aQPvn+I=" crossorigin="anonymous">
+    <title>Sarif viewer</title>
+  </head>
+  <body>
+    <div class="top-bar">
+      <div class="top-bar-left">
+        <ul class="dropdown menu" data-dropdown-menu>
+          <li class="menu-text"><a href="/" style="color: unset;">Sarif viewer</a></li>
+        </ul>
+      </div>
+      <div class="top-bar-right">
+        <ul class="menu">
+          <li>
+            <form action="/upload" encType="multipart/form-data" id="form" method="POST">
+              <input type="file" name="sarif" id="sarif" class="show-for-sr">
+              <label for="sarif" class="button" style="margin: unset">Upload File</label>
+            </form>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="grid-container">
+        <div class="grid-x grid-padding-x">
+            <div class="large-12 cell">
+              <!-- Alerts section -->
+              <% if (locals.alert) { %>
+                <div class="callout alert" style="margin-top: .5rem;">
+                  <h5>An error has happened!</h5>
+                  <p><%= alert %></p>
+                </div>
+              <% } %>
+
+              <% if (locals.warning) { %>
+                <div class="callout alert" style="margin-top: .5rem;">
+                  <h5>An error has happened!</h5>
+                  <p><%= alert %></p>
+                </div>
+              <% } %>
+              <!-- All views to be rendered here-->
+              <%- body%>
+            </div>
+        </div>
+        </div>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" 
+          integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" 
+          crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/foundation/6.6.3/js/foundation.min.js" 
+          integrity="sha512-9cXmvmK1gIDw3Tol6Xg/1SUls/CvBMgedu1aDjT519sQzy7jk+LoezyQqlzClW2LgXww4xEyuqtofg7PtWteLQ==" 
+          crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+        <script>
+            // Starting foundation
+            $(document).foundation();
+
+            // Funtion to submit uploaded file (header button)
+            document.getElementById("sarif").onchange = function() {
+                document.getElementById("form").submit();
+            };
+        </script>
+  </body>
+</html>

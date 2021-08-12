@@ -1,0 +1,28 @@
+{
+  "name": "sarif-viewer",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "bin": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/leandro-lorenzini/sarif-viewer.git"
+  },
+  "author": "Leandro Lorenzini",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/leandro-lorenzini/sarif-viewer/issues"
+  },
+  "homepage": "https://github.com/leandro-lorenzini/sarif-viewer#readme",
+  "dependencies": {
+    "ejs": "^3.1.6",
+    "express": "^4.17.1",
+    "express-fileupload": "^1.2.1",
+    "express-partials": "^0.3.0",
+    "foundation-sites": "^6.6.3",
+    "uuid": "^8.3.2"
+  }
+}

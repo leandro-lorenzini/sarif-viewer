@@ -1,0 +1,14 @@
+<div class="callout large" style="margin-top: .5rem;">
+    <h5>Sarif viewer</h5>
+    <p>This tool will help you to view JSON files which are following the sarif format.</p>
+    <form action="/upload" encType="multipart/form-data" id="form_home" method="POST">
+        <input type="file" name="sarif" id="sarif_home" class="show-for-sr">
+        <label for="sarif" class="button" style="margin: unset">Upload File</label>
+    </form>
+</div>
+
+<script>
+    document.getElementById("sarif_home").onchange = function() {
+        document.getElementById("form_home").submit();
+    };
+</script>

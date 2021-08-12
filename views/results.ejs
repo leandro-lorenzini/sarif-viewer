@@ -1,0 +1,152 @@
+<div class="grid-x grid-padding-x" style="margin-top: .5rem;">
+    <!-- TABLE LISTING THE RESULTS -->
+    <div class="large-9 cell">
+        <table>
+            <thead>
+            <tr>
+                <th width="80%">Vulnerability</th>
+                <th width="15%">File</th>
+                <th width="5%">Risk</th>
+            </tr>
+            </thead>
+            <tbody>
+                <% vulnerabilities.forEach(function(vulnerability, index){ %>
+                <tr style="cursor: pointer;" role="button" data-open="issue_<%= index %>">
+                    <td><%= rules[vulnerability.ruleId].description || vulnerability.message.text %></td>
+                    <td><%= vulnerability.locations[0].physicalLocation.artifactLocation.uri %></td>
+                    <td><span class="badge <% switch(vulnerability.level){
+                        case 'error': %>
+                            alert
+                        <% break;
+                            case 'warning': %>
+                            warning
+                        <% break;
+                            case 'note': %>
+                            primary
+                        <% break;
+                            default: %>
+                            secondary
+                    <% break; } %>" 
+                    style="border-radius: unset; width: 100%;">
+                        <%= vulnerability.level.toUpperCase() %>
+                    </span></td>
+                </tr>
+                <% }); %>
+            </tbody>
+        </table>
+    </div>
+    <!-- RESULT FILTERS -->
+    <div class="large-3 cell">
+        <div class="card">
+            <div class="card-divider">
+              Filter
+            </div>
+            <div class="card-section">
+                <form method="GET">
+                    <label>Risk level
+                        <select multiple name="level">
+                        <option value="error"   <%=filters.level.includes('error')   ? 'selected':'' %>>Error</option>
+                        <option value="warning" <%=filters.level.includes('warning') ? 'selected':'' %>>Warning</option>
+                        <option value="note"    <%=filters.level.includes('note')    ? 'selected':'' %>>Note</option>
+                        <option value="none"    <%=filters.level.includes('none')    ? 'selected':'' %>>None</option>
+                        </select>
+                    </label>
+
+                    <label>Files
+                        <select multiple name="file">
+                            <% files.forEach(file => { %>
+                                <option value="<%=file%>" <%=filters.file.includes(file)   ? 'selected':'' %> ><%=file%></option>
+                            <% }); %>
+                        </select>
+                    </label>
+
+                    <label>Rules
+                        <select multiple name="rule">
+                            <% Object.keys(rules).forEach(key => { %>
+                                <option value="<%=key%>" <%=filters.rule.includes(key)   ? 'selected':'' %>><%=key%></option>
+                            <% }); %>
+                        </select>
+                    </label>
+
+                    <button class="button small expanded" href="#">Filter</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- MODAL SHOWING RESULT DETAILS -->
+<% vulnerabilities.forEach(function(vulnerability, index){ %>
+    <div class="small reveal" id="issue_<%= index %>" data-reveal>
+        <div style="max-width: 674px;">
+            <h5><%= rules[vulnerability.ruleId].description || vulnerability.message.text %></h5>
+        </div>
+        <table class="unstriped" style="border: 0;">
+            <tr>
+                <td style="text-align: right; white-space: nowrap;">Description:</td>
+                <td><%= vulnerability.message.text %></td>
+            </tr>
+            <tr>
+                <td style="text-align: right; white-space: nowrap;">Severity:</td>
+                <td width="100%">
+                    <span class="badge <% switch(vulnerability.level){
+                        case 'error': %>
+                            alert
+                        <% break;
+                            case 'warning': %>
+                            warning
+                        <% break;
+                            case 'note': %>
+                            primary
+                        <% break;
+                            default: %>
+                            secondary
+                    <% break; } %>" 
+                    style="border-radius: unset;">
+                        <%= vulnerability.level.toUpperCase() %>
+                    </span>
+                </td>
+            </tr>
+            <% if (vulnerability.properties) { %>
+            <tr>
+                <td style="text-align: right; white-space: nowrap;">Standards:</td>
+                <td width="100%">
+                    <ul style="margin-bottom: 0;">
+                        <% Object.keys(vulnerability.properties).forEach(key => { %>
+                            <li><%= vulnerability.properties[key] %> (<%=key.toUpperCase()%>)</li>
+                        <% }) %>
+                    </ul>
+                </td>
+            </tr>
+            <% } %>
+            <% if(rules[vulnerability.ruleId].help) { %>
+            <tr>
+                <td style="text-align: right; white-space: nowrap;">Help:</td>
+                <td><a href="<%=rules[vulnerability.ruleId].help%>" target="_blank"><%= rules[vulnerability.ruleId].help %></a></td>
+            </tr>
+            <% } %>
+            <tr>
+                <td style="text-align: right; white-space: nowrap;">File:</td>
+                <td><%= vulnerability.locations[0].physicalLocation.artifactLocation.uri %></td>
+            </tr>
+            <tr>
+                <td style="text-align: right; white-space: nowrap;">Start line:</td>
+                <td><%= vulnerability.locations[0].physicalLocation.region.startLine %></td>
+            </tr>
+            <tr>
+                <td style="text-align: right; white-space: nowrap;">End line:</td>
+                <td><%= vulnerability.locations[0].physicalLocation.region.endLine %></td>
+            </tr>
+        </table>
+
+        <% if (vulnerability.locations[0].physicalLocation.region.snippet) { %>
+            <code class="code-block">
+                <%= vulnerability.locations[0].physicalLocation.region.snippet.text %>
+            </code>
+        <% } %>
+
+        <button class="close-button" data-close aria-label="Close modal" type="button">
+        <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+<% }); %>
