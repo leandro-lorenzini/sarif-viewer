@@ -102,4 +102,6 @@ app.get('/result/:id', (req, res) => {
     res.render('results', { rules, files, vulnerabilities, filters })
 });
 
-app.listen(8080);
+app.listen(8080, (err) => {
+    console.log('Go to http://localhost:8080 to use the application!')
+});
