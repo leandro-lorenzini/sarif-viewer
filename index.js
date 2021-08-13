@@ -37,6 +37,6 @@ app.use('/upload', uploadRoute);
 app.use('/result', resultRoute);
 app.use('/issue',  issueRoute);
 
-app.listen(8080, (err) => {
-    console.log('Go to http://localhost:8080 to use the application!')
+app.listen(config.port, (err) => {
+    console.log(`Go to http://localhost:${config.port} to use the application!`)
 });
