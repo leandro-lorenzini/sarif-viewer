@@ -156,24 +156,24 @@
             </code>
         <% } %>
 
-        <% if (config.gitlab.enabled) { %>
         <div>
-            <a class="button" target="_blank" href="/issue?<%= qs({
-                title: rules[vulnerability.ruleId].description || 
-                    `${rules[vulnerability.ruleId].name} [${vulnerability.ruleId}]`,
-                description: vulnerability.message.text,
-                file: vulnerability.locations[0].physicalLocation.artifactLocation.uri,
-                startLine: vulnerability.locations[0].physicalLocation.region.startLine,
-                endLine: vulnerability.locations[0].physicalLocation.region.endLine,
-                help: rules[vulnerability.ruleId].help
-            }) %>">
-                <span aria-hidden="true">
-                    <img src="https://docs.gitlab.com/assets/images/gitlab-logo.svg" />
-                </span>
-                Create an issue on Gitlab
-            </a>
+            <% if (config.gitlab.enabled) { %>
+                <a class="button" target="_blank" href="/issue?<%= qs({
+                    title: rules[vulnerability.ruleId].description || 
+                        `${rules[vulnerability.ruleId].name} [${vulnerability.ruleId}]`,
+                    description: vulnerability.message.text,
+                    file: vulnerability.locations[0].physicalLocation.artifactLocation.uri,
+                    startLine: vulnerability.locations[0].physicalLocation.region.startLine,
+                    endLine: vulnerability.locations[0].physicalLocation.region.endLine,
+                    help: rules[vulnerability.ruleId].help
+                }) %>">
+                    <span aria-hidden="true">
+                        <img src="https://docs.gitlab.com/assets/images/gitlab-logo.svg" />
+                    </span>
+                    Create an issue on Gitlab
+                </a>
+            <% } %>
         </div>
-        <% } %>
         <button class="close-button" data-close aria-label="Close modal" type="button">
         <span aria-hidden="true">&times;</span>
         </button>
