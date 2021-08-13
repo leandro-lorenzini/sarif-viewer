@@ -1,0 +1,45 @@
+tr, div {
+  outline: 0 !important;
+}
+
+.badge {
+  border-radius: unset;
+}
+
+.full {
+  width: 100%;
+}
+
+.medium.reveal {
+  width: 55%;
+}
+
+.medium.reveal > div:first-of-type {
+  max-width: 750px;
+  font-size: 1.25rem;
+  margin-bottom: 10px;
+}
+
+.reveal > div:first-of-type > div {
+  display: table-cell;
+}
+
+.reveal > div:first-of-type > i {
+  padding-right: 5px;
+}
+
+.reveal > div:last-of-type {
+  text-align: right;
+}
+
+table.result-details {
+  border: 0;
+}
+
+table.result-details tr td:first-child {
+  text-align: right; 
+  white-space: nowrap;
+  vertical-align: top;
+  font-weight: bold;
+  width: 0%;
+}

@@ -16,7 +16,7 @@
                     <td><%= rules[vulnerability.ruleId].description || vulnerability.message.text %></td>
                     <td><%= rules[vulnerability.ruleId].scanner.name %></td>
                     <td><%= vulnerability.locations[0].physicalLocation.artifactLocation.uri %></td>
-                    <td><span class="badge <% switch(vulnerability.level){
+                    <td><span class="badge full <% switch(vulnerability.level){
                         case 'error': %>
                             alert
                         <% break;
@@ -28,8 +28,7 @@
                         <% break;
                             default: %>
                             secondary
-                    <% break; } %>" 
-                    style="border-radius: unset; width: 100%;">
+                    <% break; } %>" >
                         <%= vulnerability.level.toUpperCase() %>
                     </span></td>
                 </tr>
@@ -79,18 +78,21 @@
 
 <!-- MODAL SHOWING RESULT DETAILS -->
 <% vulnerabilities.forEach(function(vulnerability, index){ %>
-    <div class="small reveal" id="issue_<%= index %>" data-reveal>
-        <div style="max-width: 674px;">
-            <h5><%= rules[vulnerability.ruleId].description || vulnerability.message.text %></h5>
+    <div class="medium reveal" id="issue_<%= index %>" data-reveal>
+        
+        <div>
+            <i class="fas fa-exclamation-triangle"></i>
+            <%= rules[vulnerability.ruleId].description || `${rules[vulnerability.ruleId].name} [${vulnerability.ruleId}]`  %>
         </div>
-        <table class="unstriped" style="border: 0;">
+
+        <table class="unstriped result-details">
             <tr>
-                <td style="text-align: right; white-space: nowrap;">Description:</td>
+                <td>Description:</td>
                 <td><%= vulnerability.message.text %></td>
             </tr>
             <tr>
-                <td style="text-align: right; white-space: nowrap;">Severity:</td>
-                <td width="100%">
+                <td>Severity:</td>
+                <td>
                     <span class="badge <% switch(vulnerability.level){
                         case 'error': %>
                             alert
@@ -103,16 +105,15 @@
                         <% break;
                             default: %>
                             secondary
-                    <% break; } %>" 
-                    style="border-radius: unset;">
+                    <% break; } %>" >
                         <%= vulnerability.level.toUpperCase() %>
                     </span>
                 </td>
             </tr>
             <% if (vulnerability.properties) { %>
             <tr>
-                <td style="text-align: right; white-space: nowrap;">Standards:</td>
-                <td width="100%">
+                <td>Standards:</td>
+                <td>
                     <ul style="margin-bottom: 0;">
                         <% Object.keys(vulnerability.properties).forEach(key => { %>
                             <li><%= vulnerability.properties[key] %> (<%=key.toUpperCase()%>)</li>
@@ -122,28 +123,28 @@
             </tr>
             <% } %>
             <tr>
-                <td style="text-align: right; white-space: nowrap;">Scanner:</td>
+                <td>Scanner:</td>
                 <td><a href="<%=rules[vulnerability.ruleId].scanner.url%>" target="_blank"><%= rules[vulnerability.ruleId].scanner.name %></a></td>
             </tr>
             <% if(rules[vulnerability.ruleId].help) { %>
             <tr>
-                <td style="text-align: right; white-space: nowrap;">Help:</td>
+                <td>Help:</td>
                 <td><a href="<%=rules[vulnerability.ruleId].help%>" target="_blank"><%= rules[vulnerability.ruleId].help %></a></td>
             </tr>
             <% } %>
             <tr>
-                <td style="text-align: right; white-space: nowrap;">File:</td>
+                <td>File:</td>
                 <td><%= vulnerability.locations[0].physicalLocation.artifactLocation.uri %></td>
             </tr>
             <% if(vulnerability.locations[0].physicalLocation.region.startLine) { %>
             <tr>
-                <td style="text-align: right; white-space: nowrap;">Start line:</td>
+                <td>Start line:</td>
                 <td><%= vulnerability.locations[0].physicalLocation.region.startLine %></td>
             </tr>
             <% } %>
             <% if(vulnerability.locations[0].physicalLocation.region.endLine) { %>
             <tr>
-                <td style="text-align: right; white-space: nowrap;">End line:</td>
+                <td>End line:</td>
                 <td><%= vulnerability.locations[0].physicalLocation.region.endLine %></td>
             </tr>
             <% } %>
@@ -156,9 +157,10 @@
         <% } %>
 
         <% if (config.gitlab.enabled) { %>
-        <div style="text-align: right;">
+        <div>
             <a class="button" target="_blank" href="/issue?<%= qs({
-                title: rules[vulnerability.ruleId].description || vulnerability.message.text,
+                title: rules[vulnerability.ruleId].description || 
+                    `${rules[vulnerability.ruleId].name} [${vulnerability.ruleId}]`,
                 description: vulnerability.message.text,
                 file: vulnerability.locations[0].physicalLocation.artifactLocation.uri,
                 startLine: vulnerability.locations[0].physicalLocation.region.startLine,
@@ -172,8 +174,6 @@
             </a>
         </div>
         <% } %>
-
-
         <button class="close-button" data-close aria-label="Close modal" type="button">
         <span aria-hidden="true">&times;</span>
         </button>

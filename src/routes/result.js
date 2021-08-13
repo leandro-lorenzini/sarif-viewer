@@ -28,6 +28,7 @@ router.get('/:id', (req, res) => {
     result.runs.forEach(run => {
         run.tool.driver.rules.forEach(rule => {
             rules[rule.id] = {
+                name: rule.name,
                 description: rule.shortDescription?.text,
                 help: rule.help?.text,
                 scanner: {

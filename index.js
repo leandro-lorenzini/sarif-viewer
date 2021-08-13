@@ -14,6 +14,7 @@ const app = express();
 app.set('view engine', 'ejs');
 app.set('views', __dirname + '/src/views');
 app.use(partials());
+app.use(express.static('public'))
 
 // Setting upload file size limit
 app.use(fileUpload({
