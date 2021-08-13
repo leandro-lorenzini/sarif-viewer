@@ -1,4 +1,5 @@
 module.exports = {
+    port: process.env.port || 8080,
     gitlab: {
         enabled: process.env.gitlab_enabled || false,
         api: process.env.gitlab_api || 'https://gitlab.com/api/v4',
