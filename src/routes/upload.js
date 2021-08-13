@@ -5,6 +5,7 @@ const path = require('path');
 const router = express.Router();
 
 router.post('', (req, res) => {
+    console.log(req.files)
     const file = req.files.sarif;
     const fileName = uuid.v4(); // File name should be unique
     const uploadPath = path.join(__dirname, '..', '..', 'upload', fileName);
@@ -14,8 +15,13 @@ router.post('', (req, res) => {
             return res.render('home', { alert: `An error happened while uploading the selected file` });
         }
     });
-
-    return res.redirect('/result/' + fileName);
+    // Can be used for CI/CD
+    if (req.query.cli) {
+        return res.send(fileName);
+    }
+    else {
+        return res.redirect('/result/' + fileName);
+    }
 });
 
 module.exports = router;
